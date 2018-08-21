@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGroceriesTable extends Migration
+class CreateUserGroceriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateGroceriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('groceries', function (Blueprint $table) {
+        Schema::create('user_groceries', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name',200);
-            $table->boolean('done');	
-            $table->boolean('deleted');
             $table->bigInteger('user_id');	
+            $table->bigInteger('grocery_id');	
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateGroceriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('groceries');
+        Schema::dropIfExists('user_groceries');
     }
 }

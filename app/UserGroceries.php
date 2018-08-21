@@ -4,9 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Grocery extends Model
+class UserGroceries extends Model
 {
     //
-
-    public $timestamps = false;
 }
