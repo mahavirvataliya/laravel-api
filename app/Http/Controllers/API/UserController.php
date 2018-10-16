@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller; 
 use App\User; 
 use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Hash;
+
 use Validator;
 class UserController extends Controller 
 {
@@ -31,20 +33,24 @@ public $successStatus = 200;
     public function register(Request $request) 
     { 
         $validator = Validator::make($request->all(), [ 
-            'name' => 'required', 
+            // 'username' => 'required', 
             'email' => 'required|email', 
             'password' => 'required', 
-            'c_password' => 'required|same:password', 
+            // 'c_password' => 'required|same:password', 
         ]);
-if ($validator->fails()) { 
+         if ($validator->fails()) { 
             return response()->json(['error'=>$validator->errors()], 401);            
         }
-$input = $request->all(); 
+        $input = $request->all(); 
         $input['password'] = bcrypt($input['password']); 
-        $user = User::create($input); 
+        $user = User::create([
+            'name' => $input['email'],
+            'email' => $input['email'],
+            'password' => Hash::make($input['password']),
+        ]); 
         $success['token'] =  $user->createToken('MyApp')-> accessToken; 
         $success['name'] =  $user->name;
-return response()->json(['success'=>$success], $this-> successStatus); 
+    return response()->json(['success'=>$success], $this-> successStatus); 
     }
 /** 
      * details api 
